@@ -15,7 +15,7 @@ function userMw(req,res,next){//3 params-for Mw
 }
 function kidneyMw(req,res,next){
     const {kidney} = req.query;//memory for this stack
-    if(kidney!=1 && kidney!=2){//if || then even for 2- true
+    if(kidney!="1" && kidney!="2"){//if || then even for 2- true + req.query.kidney is a string (from the URL), not a number.
         res.status(403).json({
             msg:"Invalid kidneys!"
         });
