@@ -2,6 +2,12 @@ const express = require("express");
 const app = express();
 
 app.use(express.json());
+let count=0;//shld be global var
+function countReq(req,res,next){
+    count++;
+    console.log("No of requests :",count);
+    next();
+}
 //one req & res(objects) passed through all mw in order, each uses/modifies what it needs, and only next() moves to the next
 function userMw(req,res,next){//3 params-for Mw
     const {username , password} =req.query;//memory for this stack
@@ -24,10 +30,10 @@ function kidneyMw(req,res,next){
     }
 }
 //here if of MW satisfy then the handler using this MW wont progress as no next
-app.get("/health-checkup",userMw,kidneyMw,function (req,res){//order of mw
+app.get("/health-checkup",countReq,userMw,kidneyMw,function (req,res){//order of mw
     res.send("your healthy");
 })
-app.get("/heart-checkup",userMw,function (req,res){//acc to context -mw
+app.get("/heart-checkup",countReq,userMw,function (req,res){//acc to context -mw
     res.send("your heart is healthy");
 })
 app.listen(3000,()=>{
