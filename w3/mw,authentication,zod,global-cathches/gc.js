@@ -15,8 +15,9 @@ app.post("/kidney",function (req,res){
     res.send("you have"+ countKidney +" kidneys");
     //any handler res. is main
 })
-app.use((error,req,res,next)=>{//4 params
-
+app.use((error,req,res,next)=>{//4 params-> error is js inbuilt obj//safe
+    console.log(error);//for error
+    res.status(500).send("An internal error occured");
 })
 app.listen(3001);
 //global catche always be at bottom
